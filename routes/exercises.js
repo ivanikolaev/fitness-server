@@ -26,4 +26,16 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Получение всех упражнений
+router.get('/', async (req, res) => {
+    try {
+        const pool = req.pool;
+        const result = await pool.query('SELECT * FROM exercises');
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Ошибка при получении упражнений:', error);
+        res.status(500).json({ message: 'Ошибка сервера' });
+    }
+});
+
 module.exports = router;
