@@ -6,7 +6,7 @@ const { Pool } = require('pg');
 router.post('/', async (req, res) => {
     const { name, weight, repetitions, calories_burned } = req.body;
 
-    if (!name || !weight || !repetitions || !calories_burned) {
+    if (!name || weight === undefined || repetitions === undefined || calories_burned === undefined) {
         return res.status(400).json({ message: 'Заполните все поля (name, weight, repetitions, calories_burned)' });
     }
 
