@@ -62,6 +62,7 @@ router.get('/', authMiddleware, async (req, res) => {
             LEFT JOIN workout_exercises we ON w.id = we.workout_id
             LEFT JOIN exercises e ON we.exercise_id = e.id
             WHERE w.user_id = $1
+            ORDER BY w.id
         `;
 
         const result = await pool.query(query, [user_id]);
