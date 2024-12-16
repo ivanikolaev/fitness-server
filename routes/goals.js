@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Pool } = require('pg');
 
+// Добавление цели
 router.post('/', async (req, res) => {
     const { user_id, exercise_id, target_pr } = req.body;
 
@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Получение всех целей
 router.get('/', async (req, res) => {
     const { user_id } = req.query;
 
@@ -42,6 +43,7 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Обновление цели
 router.put('/:id', async (req, res) => {
     const { target_pr } = req.body;
     const { id } = req.params;
@@ -68,6 +70,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// Удаление цели
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
 

@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-    const { id } = req.params; // ID ресурса, например, user_id
+    const { id } = req.params;
     const userIdFromToken = req.user.id; // Предполагаем, что `req.user` заполняется с помощью JWT
 
     if (Number(id) !== userIdFromToken) {

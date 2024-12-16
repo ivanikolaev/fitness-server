@@ -5,9 +5,7 @@ const authRoutes = require('./routes/auth');
 const workoutRoutes = require('./routes/workouts');
 const exerciseRoutes = require('./routes/exercises');
 const goalRoutes = require('./routes/goals');
-const logRoutes = require('./routes/logs');
 const userRoutes = require('./routes/users');
-const authMiddleware = require('./middleware/authMiddleware');
 require('dotenv').config();
 
 const app = express();
@@ -35,40 +33,26 @@ pool.connect((err, client, release) => {
     }
 });
 
-// Middleware для парсинга JSON
+// Middleware для парсинга JSON и CORS
 app.use(cors());
 app.use(express.json());
 
+// Middleware для передачи пула соединений
+const poolMiddleware = (req, res, next) => {
+    req.pool = pool;
+    next();
+};
+
 // Передача пула соединений в маршруты
-app.use('/auth', (req, res, next) => {
-    req.pool = pool;
-    next();
-}, authRoutes);
+app.use('/auth', poolMiddleware, authRoutes);
 
-app.use('/workouts', (req, res, next) => {
-    req.pool = pool;
-    next();
-}, workoutRoutes);
+app.use('/workouts', poolMiddleware, workoutRoutes);
 
-app.use('/exercises', (req, res, next) => {
-    req.pool = pool;
-    next();
-}, exerciseRoutes);
+app.use('/exercises', poolMiddleware, exerciseRoutes);
 
-app.use('/goals', (req, res, next) => {
-    req.pool = pool;
-    next();
-}, goalRoutes);
+app.use('/goals', poolMiddleware, goalRoutes);
 
-app.use('/logs', (req, res, next) => {
-    req.pool = pool;
-    next();
-}, logRoutes);
-
-app.use('/users', (req, res, next) => {
-    req.pool = pool;
-    next();
-}, userRoutes);
+app.use('/users', poolMiddleware, userRoutes);
 
 // Базовый роут
 app.get('/', (req, res) => {

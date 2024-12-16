@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { Pool } = require('pg');
 const authMiddleware = require('../middleware/authMiddleware');
 require('dotenv').config();
 
 // Добавление тренировки
 router.post('/', authMiddleware, async (req, res) => {
-    const { user_id, type, date, exercises } = req.body; // тип тренировки, дата и массив упражнений
+    const { user_id, type, date, exercises } = req.body;
 
     if (!user_id || !type || !date || !exercises || exercises.length === 0) {
         return res.status(400).json({ message: 'Заполните все поля (user_id, type, date, exercises)' });
@@ -37,6 +36,7 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 });
 
+// Получение всех тренировок
 router.get('/', authMiddleware, async (req, res) => {
     const { user_id } = req.query;
 
@@ -103,7 +103,6 @@ router.get('/', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Ошибка сервера' });
     }
 });
-
 
 // Удаление тренировки
 router.delete('/:id', authMiddleware, async (req, res) => {

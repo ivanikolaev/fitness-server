@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { Pool } = require('pg');
 
 // Добавление упражнения
 router.post('/', async (req, res) => {
@@ -13,7 +12,6 @@ router.post('/', async (req, res) => {
     try {
         const pool = req.pool;
 
-        // Добавление упражнения
         await pool.query(
             'INSERT INTO exercises (name, weight, repetitions, calories_burned) VALUES ($1, $2, $3, $4)',
             [name, weight, repetitions, calories_burned]
